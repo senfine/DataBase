@@ -1,0 +1,45 @@
+--1.1 ¬ыбрать первые три значени€ из таблицы doctor, пол€ name
+SELECT TOP 3 name FROM doctor;
+
+--2.1 выбрать в таблице appointment,значени€ пол€ Id_sick, у которых поле disease равно NULL
+SELECT id_sick FROM appointment WHERE disease IS NULL;
+--2.2 выбрать в таблице drug, значени€ полей, у которых поле title не равно NULL
+SELECT time_of_receipt FROM drug WHERE title IS NOT NULL;
+--2.3 ¬ыбрать из таблицы drug поле id_drug, значение которого от 3 до 5
+SELECT id_drug, title FROM drug WHERE id_drug BETWEEN 3 AND 5;
+--2.4 ¬ыбрать из таблицы procedure значени€, у которых id_procedure равен 1, 3, 5
+SELECT * FROM `procedure` WHERE id_procedure IN (1, 3, 5);
+--2.5 ¬ыбрать поле name из таблицы doctor, где id_doctor равен 2
+SELECT name FROM doctor WHERE id_doctor = 2;
+--2.6 ¬ыбрать поле id_sick из таблицы appointment, где диагнозом €вл€етс€ что угодно, кроме lymphoma.
+SELECT id_sick FROM appointment WHERE disease <> "lymphoma";
+
+--3.1 ¬ыбрать значени€ из таблицы drug и отсортировать по id_drug в пор€дке возрастани€
+SELECT * FROM drug ORDER BY  id_drug ASC;
+--3.2 “о же самое, что в 3.1, но в пор€дке убывани€
+SELECT  FROM drug ORDER BY  id_drug DESC;
+--3.3 ¬ыбрать id_drug из таблицы drug_in_appointment и отсортировать в пор€дке возрастани€ по пол€м id_drug и id_appointment
+SELECT id_drug, id_appointment FROM drug_in_appointment ORDER BY id_drug ASC, id_appointment ASC;
+--3.4 ¬ыбрать id_sick и name из таблицы sick, отсортировать по id_sick в пор€дке убывани€
+SELECT id_sick, name FROM sick ORDER BY 1 DESC;
+
+--4.1 ¬ыбрать из таблицы procedure минимальную цену лекарства
+SELECT MIN(price) FROM `procedure`;
+--4.2 ¬ыбрать из таблицы drug название лекарства, наибольшее по лексикографическому пор€дку
+SELECT MAX(title) FROM drug;
+--4.3 ¬озвращает среднюю цену из таблицы procedure
+SELECT AVG(price) FROM `procedure`;
+--4.4 ¬озвращает сумму всех цен из таблицы procedure
+SELECT SUM(price) FROM `procedure`;
+
+--5.1 ¬ыбрать все уникальные значени€ specialty из таблицы doctor
+SELECT DISTINCT (specialty) FROM doctor;
+--5.2 ѕодсчитать кол-во полей с уникальными значени€ми
+SELECT COUNT(DISTINCT specialty) AS CountOfDoctor FROM doctor;
+
+--6.1 ¬ыбрать из таблицы procedure названи€ процедур и стоимость их проведени€
+SELECT name_of_procedure, SUM(price) FROM [procedure] GROUP BY name_of_procedure;
+--6.2 ¬ыбрать из таблицы procedure названи€ процедур и стоимость их проведени€, при условии что стоимость от 0 до 1000 у.е.
+SELECT name_of_procedure, SUM(price) FROM `procedure` WHERE price BETWEEN 0 AND 1000 GROUP BY name_of_procedure;
+--6.3 ¬ыбрать из таблицы procedure названи€ процедур и стоимость их проведени€, при условии что сумма цен меньше 2300 у.е.
+SELECT name_of_procedure, SUM(price) FROM `procedure` GROUP BY name_of_procedure HAVING SUM(price) < 2300;
